@@ -23,9 +23,33 @@ const { NotImplementedError } = require('../extensions/index.js');
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  //throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function minesweeper(matrix) {
+
+  let gameArray = new Array(matrix.length);
+
+  for (let i = 0; i < matrix.length; i++) {
+    gameArray[i] = new Array(matrix.length);
+  }
+
+  for (let i = 0; i < matrix.length; i++) {
+    for (let j = 0; j < matrix[i].length; j++) {
+      let num = 0;
+
+      if (((i-1) >= 0) && ((j-1)>=0) && (matrix[i-1][j-1] == true)) num++;
+      if (((i-1) >= 0) && (matrix[i-1][j] == true)) num++;
+      if (((i-1) >= 0) && ((j + 1) < matrix[i].length) && (matrix[i-1][j+1] == true)) num++;
+      if (((j-1) >= 0) && (matrix[i][j-1] == true)) num++;
+      if (((j + 1) < matrix[i].length) && (matrix[i][j+1] == true)) num++;
+      if (((i + 1) < matrix.length) && ((j - 1) >= 0) && (matrix[i+1][j-1] == true)) num++;
+      if (((i + 1) < matrix.length) && (matrix[i+1][j] == true)) num++;
+      if (((i + 1) < matrix.length) && ((j + 1) < matrix[i].length) && (matrix[i+1][j+1] == true)) num++;
+
+      gameArray[i][j] = num;
+    }
+  }
+
+  return gameArray;
+
 }
 
 module.exports = {
