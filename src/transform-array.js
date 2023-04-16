@@ -15,45 +15,55 @@ const { NotImplementedError } = require('../extensions/index.js');
  */
 function transform(arr) {
 
-  // if (!Array.isArray(arr)) throw new Error("'arr' parameter must be an instance of the Array!");
+  if (!Array.isArray(arr)) throw new Error("'arr' parameter must be an instance of the Array!");
 
-  // let newArr = [];
-  // let i = 0;
+  let newArr = arr.slice();
 
-  // while (i < arr.length) {
-  //   if ((arr[0] === '--double-prev' || '--discard-prev') || (arr[arr.length - 1] === '--double-next' || '--discard-next')) {
-  //       i++;
-  //       continue;
-  //   }
+  let length = newArr.length;
 
-  //   if (arr[i] === '--double-prev') {
-  //     newArr.push(arr[i-1]);
-  //     i++;
-  //     continue;
-  //   }
+  for (let i = 0; i < length; i++) {
+    if ((i === 0) && ((newArr[i] === '--double-prev') || (newArr[i] === '--discard-prev')))  {
+      newArr.splice(0, 1);
+      continue;
+    }
 
-  //   if (arr[i] === '--double-next') {
-  //     newArr.push(arr[i+1]);
-  //     i++;
-  //     continue;
-  //   }
+    if ((i === (length - 1)) && ((newArr[length - 1] === '--double-next') || (newArr[i] === '--discard-next'))) {
+      newArr.splice(-1, 1);
+      continue;
+    }
 
-  //   if (arr[i] === '--discard-prev') {
-  //       newArr.pop();
-  //       i++;
-  //     continue;
-  //   }
-  //   if (arr[i] === '--discard-next') {
-  //       i = i+2;
-  //     continue;
-  //     // i++;
-  //   }
+    if (newArr[i] == '--double-prev') {
+      newArr.splice(i, 1, newArr[i-1]);
+      continue;
+    }
 
-  //   newArr.push(arr[i]);
-  //   i++;
-  // }
+    if (newArr[i] == '--double-next') {
+      newArr.splice(i, 1, newArr[i+1]);
+      continue;
+    }
 
-  // return newArr;
+    if ((newArr[i] == '--discard-prev')) {
+      newArr.splice((i - 1), 2);
+      i = i - 2;
+      continue;
+    }
+
+    if (newArr[i] == '--discard-next') {
+      if ((newArr[i+2] == '--discard-prev') || (newArr[i+2] == '--double-prev')) {
+        newArr.splice((i + 2), 1);
+      }
+
+      newArr.splice(i, 2);
+      i = i - 1;
+      continue;
+    }
+
+    length = newArr.length;
+  }
+
+
+
+  return newArr;
 
 }
 
