@@ -20,16 +20,14 @@ function renameFiles(names) {
   let iteration = 0;
 
   while (iteration < names.length) {
+    let counter = 1;
     for (let i = 0; i < names.length; i++) {
-      let counter = 1;
       if ((names[iteration] === names[i]) && (iteration != i)) {
-        names[i] = `${names[iteration]}(${counter})`
-
+        names[i] = `${names[iteration]}(${counter})`;
+        counter++;
       }
-      counter++;
     }
     iteration++;
-
   }
 
   return names;
